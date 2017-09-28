@@ -27,25 +27,25 @@ android {
     // 定义输出包名
     applicationVariants.all { variant ->
         variant.outputs.each { output ->
-            //新名字
+            // 新名字
             def newName
-            //时间戳
+            // 时间戳
             def timeNow
-            //输出文件夹
+            // 输出文件夹
             def outDirectory
-            //是否为Jenkins打包，输出路径不同
+            // 是否为Jenkins打包，输出路径不同
             if ("true".equals(IS_JENKINS)) {
-                //Jenkins打包输出到服务器路径
+                // Jenkins打包输出到服务器路径
                 timeNow = JENKINS_TIME
-                //BUILD_PATH为服务器输出路径
+                // BUILD_PATH为服务器输出路径
                 outDirectory = '/Users/Shared/Jenkins/Home/workspace/Android_One/app/build/outputs/apk'
-                //AutoBuildTest-v1.0.1-xiaomi-release.apk
-                newName = 'Jenkins-AutoBuildTest-v' + APP_VERSION + '-' + variant.buildType.name + '.apk'
+                // Jenkins打包 .apk
+                newName = 'JenkinsBuild-v' + APP_VERSION + '-' + variant.buildType.name + '.apk'
             } else {
-                //本机打包输出在本机路径
+                // 本机打包输出在本机路径
                 timeNow = releaseTime()
                 outDirectory = output.outputFile.getParent()
-                //studio打的.apk
+                // studio打的.apk
                 newName = 'AutoBuildTest-v' + APP_VERSION + '-' + variant.buildType.name + '.apk'
             }
             output.outputFile = new File(outDirectory, newName)
