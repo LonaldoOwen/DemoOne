@@ -2,7 +2,7 @@ apply plugin: 'com.android.application'
 
 // 时间戳
 static def releaseTime() {
-    return new Date().format("yyyy-MM-dd", TimeZone.getTimeZone("UTC"))
+    return new Date().format("yyyy-MM-dd-HH-mm", TimeZone.getTimeZone("UTC"))
 }
 
 android {
@@ -41,13 +41,13 @@ android {
                 // BUILD_PATH为Jenkins输出路径
                 outDirectory = '/Users/Shared/Jenkins/Home/workspace/Android_One/app/build/outputs/apk'
                 // Jenkins打包 .apk
-                newName = 'JenkinsBuild-v' + APP_VERSION + '-' + variant.buildType.name + '-' + timeNow + '.apk'
+                newName = 'JenkinsBuild-' + APP_VERSION + '-' + variant.buildType.name + '-' + timeNow + '.apk'
             } else {
                 // 本机打包输出在本机路径
                 timeNow = releaseTime()
                 outDirectory = output.outputFile.getParent()
                 // studio打的.apk
-                newName = 'AutoBuildTest-v' + APP_VERSION + '-' + variant.buildType.name + '-' + timeNow + '.apk'
+                newName = 'AndroidStudio-' + project.name + '-' + APP_VERSION + '-' + variant.buildType.name + '-' + timeNow + '.apk'
             }
             output.outputFile = new File(outDirectory, newName)
         }
