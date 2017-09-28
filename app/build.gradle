@@ -2,7 +2,7 @@ apply plugin: 'com.android.application'
 
 // 时间戳
 static def releaseTime() {
-    return new Date().format("yyyy-MM-dd-HH-mm", TimeZone.getTimeZone("UTC"))
+    return new Date().format("yyyy-MM-dd-HH:mm", TimeZone.getTimeZone("Asia/Shanghai"))
 }
 
 android {
