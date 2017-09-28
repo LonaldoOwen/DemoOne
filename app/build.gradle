@@ -13,7 +13,8 @@ android {
         minSdkVersion 26
         targetSdkVersion 26
         versionCode 1
-        versionName "1.0"
+        //versionName "1.0"
+        versionName APP_VERSION
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
     }
     buildTypes {
@@ -26,10 +27,36 @@ android {
     // 定义输出包名
     applicationVariants.all { variant ->
         variant.outputs.each { output ->
-            output.outputFile = new File(output.outputFile.parent, variant.applicationId + "-" + buildType.name+"-" +defaultConfig.versionName + "-" + defaultConfig.versionCode + "-${releaseTime() }.apk" );
+            //新名字
+            def newName
+            //时间戳
+            def timeNow
+            //输出文件夹
+            def outDirectory
+            //是否为Jenkins打包，输出路径不同
+            if ("true".equals(IS_JENKINS)) {
+                //Jenkins打包输出到服务器路径
+                timeNow = JENKINS_TIME
+                //BUILD_PATH为服务器输出路径
+                outDirectory = '/Users/Shared/Jenkins/Home/workspace/Android_One/app/build/outputs/apk'
+                //AutoBuildTest-v1.0.1-xiaomi-release.apk
+                newName = 'AutoBuildTest-v' + APP_VERSION + '-' + variant.buildType.name + '.apk'
+            } else {
+                //本机打包输出在本机路径
+                timeNow = releaseTime()
+                outDirectory = output.outputFile.getParent()
+                if ('debug'.equals(variant.buildType.name)) {
+                    newName = "AutoBuildTest-v${APP_VERSION}-debug.apk"
+                } else {
+                    //AutoBuildTest-v1.0.1-xiaomi-release.apk
+                    newName = 'AutoBuildTest-v' + APP_VERSION + '-' + variant.buildType.name + '.apk'
+                }
+            }
+            output.outputFile = new File(outDirectory+'/'+timeNow, newName)
         }
     }
 }
+
 
 dependencies {
     compile fileTree(dir: 'libs', include: ['*.jar'])
