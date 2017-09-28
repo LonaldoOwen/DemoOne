@@ -1,5 +1,10 @@
 apply plugin: 'com.android.application'
 
+// 时间戳
+static def releaseTime() {
+    return new Date().format("yyyy-MM-dd", TimeZone.getTimeZone("UTC"))
+}
+
 android {
     compileSdkVersion 26
     buildToolsVersion "26.0.1"
@@ -15,6 +20,13 @@ android {
         release {
             minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+        }
+    }
+
+    // 定义输出包名
+    applicationVariants.all { variant ->
+        variant.outputs.each { output ->
+            output.outputFile = new File(output.outputFile.parent, variant.applicationId + "-" + buildType.name+"-" +defaultConfig.versionName + "-" + defaultConfig.versionCode + "-${releaseTime() }.apk" );
         }
     }
 }
