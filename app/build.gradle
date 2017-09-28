@@ -45,14 +45,10 @@ android {
                 //本机打包输出在本机路径
                 timeNow = releaseTime()
                 outDirectory = output.outputFile.getParent()
-                if ('debug'.equals(variant.buildType.name)) {
-                    newName = "AutoBuildTest-v${APP_VERSION}-debug.apk"
-                } else {
-                    //AutoBuildTest-v1.0.1-xiaomi-release.apk
-                    newName = 'AutoBuildTest-v' + APP_VERSION + '-' + variant.buildType.name + '.apk'
-                }
+                //studio打的.apk
+                newName = 'AutoBuildTest-v' + APP_VERSION + '-' + variant.buildType.name + '.apk'
             }
-            output.outputFile = new File(outDirectory+'/'+timeNow, newName)
+            output.outputFile = new File(outDirectory, newName)
         }
     }
 }
